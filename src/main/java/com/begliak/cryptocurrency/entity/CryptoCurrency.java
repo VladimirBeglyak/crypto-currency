@@ -23,5 +23,5 @@ public class CryptoCurrency {
     private String symbol;
 
     @Column(name = "price_usd")
-    private Double priceUsd;
+    private BigDecimal priceUsd;
 }

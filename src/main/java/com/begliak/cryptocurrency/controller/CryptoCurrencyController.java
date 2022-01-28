@@ -1,5 +1,6 @@
 package com.begliak.cryptocurrency.controller;
 
+import com.begliak.cryptocurrency.dto.ClientNotifyRequest;
 import com.begliak.cryptocurrency.dto.CryptoCurrencyDto;
 import com.begliak.cryptocurrency.entity.CryptoCurrency;
 import com.begliak.cryptocurrency.service.ClientService;
@@ -25,11 +26,11 @@ public class CryptoCurrencyController {
 
     @GetMapping("/{symbol}")
     public CryptoCurrency getCurrency(@PathVariable String symbol) {
-        return cryptoCurrencyService.findBySymbol(symbol);
+        return cryptoCurrencyService.getCurrency(symbol);
     }
 
     @PostMapping("/notify")
-    public void saveClientInfo(String username, String symbol) {
-        clientService.save(username, symbol);
+    public void saveClientInfo(ClientNotifyRequest clientNotifyRequest) {
+        clientService.save(clientNotifyRequest);
     }
 }

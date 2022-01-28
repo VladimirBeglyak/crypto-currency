@@ -29,7 +29,7 @@ public class CryptoCurrencyService {
                 .collect(toList());
     }
 
-    public CryptoCurrency findBySymbol(String symbol) {
+    public CryptoCurrency getCurrency(String symbol) {
         return cryptoCurrencyRepository.findBySymbol(symbol)
                 .orElseThrow(() -> new CurrencyNotFoundException(String.format("Currency %s not found", symbol)));
     }

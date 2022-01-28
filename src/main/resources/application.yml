@@ -8,6 +8,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
+#        show_sql: true
+#        format_sql: true
         ddl-auto: validate
   flyway:
     schemas: public
@@ -15,4 +17,3 @@ spring:
 logging:
   file:
     name: begliak.log
-
