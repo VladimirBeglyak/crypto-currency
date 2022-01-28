@@ -1,9 +1,12 @@
 package com.begliak.cryptocurrency.service;
 
+import com.begliak.cryptocurrency.dto.CryptoCurrencyDto;
 import com.begliak.cryptocurrency.entity.Client;
 import com.begliak.cryptocurrency.entity.CryptoCurrency;
 import com.begliak.cryptocurrency.repository.ClientRepository;
 import com.begliak.cryptocurrency.repository.CryptoCurrencyRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URL;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -25,10 +29,11 @@ public class CurrencyActuatorService {
     private static final String ACTUAL_INFO_BTC = "https://api.coinlore.net/api/ticker?id=90";
     private static final String ACTUAL_INFO_ETH = "https://api.coinlore.net/api/ticker?id=80";
     private static final String ACTUAL_INFO_SOL = "https://api.coinlore.net/api/ticker?id=48543";
-    private final CryptoCurrencyRepository cryptoCurrencyRepository;
-    private final ClientRepository clientRepository;
     private static final Double MAX_CHANGE = 1.0;
     private static final Double CONVERT_TO_PERCENT = 100.0;
+
+    private final CryptoCurrencyRepository cryptoCurrencyRepository;
+    private final ClientRepository clientRepository;
 
     @Scheduled(fixedDelay = 60000L)
     public void updateDataBase() {
