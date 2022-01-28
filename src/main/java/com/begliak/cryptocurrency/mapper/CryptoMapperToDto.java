@@ -5,7 +5,7 @@ import com.begliak.cryptocurrency.entity.CryptoCurrency;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CryptoMapperToDto implements Mapper<CryptoCurrency, CryptoCurrencyDto>{
+public class CryptoMapperToDto implements Mapper<CryptoCurrency, CryptoCurrencyDto> {
     @Override
     public CryptoCurrencyDto mapFrom(CryptoCurrency entity) {
         return CryptoCurrencyDto.builder()

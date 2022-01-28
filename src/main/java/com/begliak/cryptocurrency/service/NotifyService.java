@@ -1,15 +1,12 @@
 package com.begliak.cryptocurrency.service;
 
-import com.begliak.cryptocurrency.dto.CryptoCurrencyDto;
+
 import com.begliak.cryptocurrency.entity.Client;
 import com.begliak.cryptocurrency.entity.CryptoCurrency;
 import com.begliak.cryptocurrency.repository.ClientRepository;
 import com.begliak.cryptocurrency.repository.CryptoCurrencyRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -17,13 +14,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.URL;
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static java.lang.Double.parseDouble;
-import static java.lang.Math.*;
 import static java.math.BigDecimal.*;
 
 @Service
