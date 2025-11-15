@@ -39,9 +39,11 @@ jobs:
 
       - name: Install Nomad CLI
         run: |
-          curl -fsSL https://releases.hashicorp.com/nomad/1.7.4/nomad_1.7.4_linux_amd64.zip -o nomad.zip
-          unzip -o nomad.zip
-          sudo mv nomad /usr/local/bin/
+          # Создаем временную папку
+          TMP_DIR=$(mktemp -d)
+          curl -fsSL https://releases.hashicorp.com/nomad/1.7.4/nomad_1.7.4_linux_amd64.zip -o $TMP_DIR/nomad.zip
+          unzip -o $TMP_DIR/nomad.zip -d $TMP_DIR
+          sudo mv $TMP_DIR/nomad /usr/local/bin/
 
       - name: Deploy job to Nomad
         env:
