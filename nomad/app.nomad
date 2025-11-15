@@ -2,12 +2,9 @@ job "java-app" {
   datacenters = ["dc1"]
   type = "service"
 
-  group "java" {
-    count = 1
-
+  group "app" {
     task "app" {
       driver = "docker"
-
       config {
         image = "IMAGE_REPLACE"
         ports = ["http"]
@@ -15,19 +12,12 @@ job "java-app" {
 
       resources {
         cpu    = 500
-        memory = 512
+        memory = 256
       }
 
       service {
         name = "java-app"
         port = "http"
-
-        check {
-          type     = "http"
-          path     = "/actuator/health"
-          interval = "10s"
-          timeout  = "2s"
-        }
       }
     }
 
