@@ -37,20 +37,20 @@ jobs:
       - name: Push Docker image
         run: docker push ${{ env.IMAGE }}
 
-      - name: Install Nomad CLI
-        run: |
-          # Создаем временную папку
-          TMP_DIR=$(mktemp -d)
-          curl -fsSL https://releases.hashicorp.com/nomad/1.7.4/nomad_1.7.4_linux_amd64.zip -o $TMP_DIR/nomad.zip
-          unzip -o $TMP_DIR/nomad.zip -d $TMP_DIR
-          sudo mv $TMP_DIR/nomad /usr/local/bin/
-
-      - name: Start Nomad Dev Server
-        run: |
-          nomad agent -dev -bind=127.0.0.1 > nomad.log 2>&1 &
-          sleep 5
-
-      - name: Deploy job to Nomad
-        run: |
-          sed -i "s|IMAGE_REPLACE|${{ env.IMAGE }}|g" nomad/app.nomad
-          nomad job run nomad/app.nomad
+#      - name: Install Nomad CLI
+#        run: |
+#          # Создаем временную папку
+#          TMP_DIR=$(mktemp -d)
+#          curl -fsSL https://releases.hashicorp.com/nomad/1.7.4/nomad_1.7.4_linux_amd64.zip -o $TMP_DIR/nomad.zip
+#          unzip -o $TMP_DIR/nomad.zip -d $TMP_DIR
+#          sudo mv $TMP_DIR/nomad /usr/local/bin/
+#
+#      - name: Start Nomad Dev Server
+#        run: |
+#          nomad agent -dev -bind=127.0.0.1 > nomad.log 2>&1 &
+#          sleep 5
+#
+#      - name: Deploy job to Nomad
+#        run: |
+#          sed -i "s|IMAGE_REPLACE|${{ env.IMAGE }}|g" nomad/app.nomad
+#          nomad job run nomad/app.nomad
