@@ -38,7 +38,8 @@ jobs:
       # 6. Build Docker image for app
       - name: Build Docker image
         run: |
-          IMAGE=ghcr.io/${GITHUB_REPOSITORY_LOWER}/app:latest
+          REPO_LOWER=$(echo "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')
+          IMAGE=ghcr.io/$REPO_LOWER/app:latest
           docker build -t $IMAGE .
           echo "IMAGE=$IMAGE" >> $GITHUB_ENV
 
