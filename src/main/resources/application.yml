@@ -1,15 +1,15 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/crypto
-    username: postgres
-    password: postgres
+    username: myuser
+    password: mypassword
     driver-class-name: org.postgresql.Driver
   jpa:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
-#        show_sql: true
-#        format_sql: true
+        #        show_sql: true
+        #        format_sql: true
         ddl-auto: validate
   flyway:
     schemas: public
@@ -17,3 +17,11 @@ spring:
 logging:
   file:
     name: begliak.log
+
+api:
+  coinlore:
+    baseUrl: https://api.coinlore.net/
+    url:
+      btc: api/ticker/?id=90
+      eth: api/ticker/?id=80
+      sol: api/ticker/?id=48543

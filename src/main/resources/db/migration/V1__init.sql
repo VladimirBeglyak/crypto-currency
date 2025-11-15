@@ -7,10 +7,10 @@ create table crypto_currency
 
 create table notify_client
 (
-    id bigserial primary key,
+    id       bigserial primary key,
     username varchar(128),
-    symbol varchar(32),
-    price decimal
+    symbol   varchar(32),
+    price    decimal
 );
 
 insert into crypto_currency

@@ -1,18 +1,17 @@
 package com.begliak.cryptocurrency.dto;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.Builder;
+import lombok.Value;
 
 @Value
 @Builder
 public class CryptoCurrencyDto {
 
-        String id;
+  String id;
 
-        String symbol;
+  String symbol;
 
-        @JsonProperty("price_usd")
-        String priceUsd;
-
+  @JsonProperty("price_usd")
+  String priceUsd;
 }
