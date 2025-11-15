@@ -39,8 +39,9 @@ jobs:
 
       - name: Install Nomad CLI
         run: |
+          rm -f nomad nomad.zip
           curl -fsSL https://releases.hashicorp.com/nomad/1.7.4/nomad_1.7.4_linux_amd64.zip -o nomad.zip
-          unzip nomad.zip
+          unzip -o nomad.zip
           sudo mv nomad /usr/local/bin/
 
       - name: Deploy job to Nomad
