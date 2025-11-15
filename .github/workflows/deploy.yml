@@ -1,0 +1,47 @@
+name: Deploy Java App to Nomad
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 16
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '16'
+
+      - name: Build jar
+        run: ./gradlew bootJar
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build Docker image
+        run: |
+          IMAGE=ghcr.io/${{ github.repository }}/app:latest
+          docker build -t $IMAGE .
+          echo "IMAGE=$IMAGE" >> $GITHUB_ENV
+
+      - name: Push Docker image
+        run: docker push ${{ env.IMAGE }}
+
+      - name: Install Nomad CLI
+        run: |
+          curl -fsSL https://releases.hashicorp.com/nomad/1.7.4/nomad_1.7.4_linux_amd64.zip -o nomad.zip
+          unzip nomad.zip
+          sudo mv nomad /usr/local/bin/
+
+      - name: Deploy job to Nomad
+        env:
+          NOMAD_ADDR: ${{ secrets.NOMAD_ADDR }}
+        run: |
+          sed -i "s|IMAGE_REPLACE|${{ env.IMAGE }}|g" nomad/app.nomad
+          nomad job run nomad/app.nomad
