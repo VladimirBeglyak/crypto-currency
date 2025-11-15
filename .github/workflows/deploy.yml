@@ -45,9 +45,12 @@ jobs:
           unzip -o $TMP_DIR/nomad.zip -d $TMP_DIR
           sudo mv $TMP_DIR/nomad /usr/local/bin/
 
+      - name: Start Nomad Dev Server
+        run: |
+          nomad agent -dev -bind=127.0.0.1 > nomad.log 2>&1 &
+          sleep 5
+
       - name: Deploy job to Nomad
-        env:
-          NOMAD_ADDR: ${{ secrets.NOMAD_ADDR }}
         run: |
           sed -i "s|IMAGE_REPLACE|${{ env.IMAGE }}|g" nomad/app.nomad
           nomad job run nomad/app.nomad
