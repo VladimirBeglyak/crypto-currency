@@ -57,6 +57,24 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform fmt
+        run: terraform fmt
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform validate
+        run: terraform validate -no-color
+
+      - name: Terraform plan
+        run: terraform plan -no-color
+
+      - name: Terraform apply
+        run: terraform apply -no-color -auto-approve
+
 #  terraform:
 #    name: 'Terraform'
 #    runs-on: ubuntu-latest
