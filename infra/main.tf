@@ -1,14 +1,23 @@
 terraform {
-  required_version = ">= 1.0"
+  required_providers {
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "~> 3.0"
+    }
+  }
 }
 
-# Локальный провайдер для учебного примера
-provider "local" {
+provider "docker" {}
 
+resource "docker_image" "nginx" {
+  name = "nginx:latest"
 }
 
-# Ресурс — создаёт файл с содержимым
-resource "local_file" "example" {
-  filename = "${path.module}/${var.filename}"
-  content  = var.file_content
+resource "docker_container" "nginx" {
+  name  = "demo-nginx"
+  image = docker_image.nginx.image_id
+  ports {
+    internal = 80
+    external = 8080
+  }
 }
