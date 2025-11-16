@@ -28,11 +28,13 @@ jobs:
         with:
           terraform_version: 0.12.19
 
+      - name: Change to infra directory
+        run: cd infra
+
       - name: Upload terraform file
         uses: actions/upload-artifact@v4
         with:
-          name: main.tf
-          path: infra
+          path: infra/main.tf
 
       - name: Terraform fmt
         run: terraform fmt
