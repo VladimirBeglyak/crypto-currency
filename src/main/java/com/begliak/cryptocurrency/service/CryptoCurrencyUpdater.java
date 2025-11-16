@@ -39,7 +39,7 @@ public class CryptoCurrencyUpdater {
   private Mono<CryptoCurrency> saveCryptCurrency(CryptResponse cryptResponse) {
     return Mono.fromCallable(() -> {
           CryptoCurrency cryptoCurrency = CryptoCurrency.builder()
-              .id(Long.valueOf(cryptResponse.id()))
+              .externalId(Long.valueOf(cryptResponse.id()))
               .symbol(cryptResponse.symbol())
               .priceUsd(BigDecimal.valueOf(cryptResponse.priceUsd()))
               .build();

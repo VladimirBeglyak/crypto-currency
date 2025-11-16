@@ -1,10 +1,11 @@
 package com.begliak.cryptocurrency.entity;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -21,8 +22,11 @@ import lombok.NoArgsConstructor;
 public class CryptoCurrency {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @GeneratedValue(strategy = IDENTITY)
   private Long id;
+
+  @Column(name = "external_id")
+  private Long externalId;
 
   private String symbol;
 

@@ -22,7 +22,7 @@ api:
   coinlore:
     baseUrl: https://api.coinlore.net/
     tickerUrl: api/ticker/?id=
-    ids: [ 90,80,48543 ]
+    ids: [ 90,80,48543,518,2 ]
 
 task:
   notify.change.price: 0 */5 * * * *
