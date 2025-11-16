@@ -26,13 +26,11 @@ public class ClientService {
 
     Optional<Client> clientOpt = clientRepository.findByUsernameAndSymbol(clientNotifyRequest.getUsername(), clientNotifyRequest.getSymbol());
 
-    Client client;
-
     if (clientOpt.isPresent()) {
       clientOpt.get().setSymbol(currency.getSymbol());
       clientOpt.get().setPrice(currency.getPriceUsd());
     } else {
-      client = Client.builder()
+      Client client = Client.builder()
           .username(clientNotifyRequest.getUsername())
           .price(currency.getPriceUsd())
           .symbol(currency.getSymbol())

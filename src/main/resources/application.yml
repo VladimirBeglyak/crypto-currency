@@ -21,7 +21,8 @@ logging:
 api:
   coinlore:
     baseUrl: https://api.coinlore.net/
-    url:
-      btc: api/ticker/?id=90
-      eth: api/ticker/?id=80
-      sol: api/ticker/?id=48543
+    tickerUrl: api/ticker/?id=
+    ids: [ 90,80,48543 ]
+
+task:
+  notify.change.price: 0 */5 * * * *
