@@ -28,28 +28,25 @@ jobs:
         with:
           terraform_version: 0.12.19
 
-      - name: Change to infra directory
-        run: cd infra
-
-      - name: Upload terraform file
-        uses: actions/upload-artifact@v4
-        with:
-          path: infra/main.tf
-
       - name: Terraform fmt
         run: terraform fmt
+        working-directory: infra
 
       - name: Terraform Init
         run: terraform init
+        working-directory: infra
 
       - name: Terraform Validate
         run: terraform validate -no-color
+        working-directory: infra
 
       - name: Terraform Plan
         run: terraform plan -no-color
+        working-directory: infra
 
       - name: Terraform Apply
         run: terraform apply -no-color -auto-approve
+        working-directory: infra
 
       - name: Upload kubeconfig file
         uses: actions/upload-artifact@v4
