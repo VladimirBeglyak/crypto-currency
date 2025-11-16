@@ -1,23 +1,13 @@
 terraform {
-  required_providers {
-    docker = {
-      source  = "kreuzwerker/docker"
-      version = "~> 3.0"
-    }
-  }
+  # backend "s3" {
+  #   bucket = "{YOUR_S3_BUCKET_NAME}"
+  #   key    = "terraform/backend"
+  #   region = "{YOUR_AWS_REGION}"
+  # }
 }
 
-provider "docker" {}
-
-resource "docker_image" "nginx" {
-  name = "nginx:latest"
-}
-
-resource "docker_container" "nginx" {
-  name  = "demo-nginx"
-  image = docker_image.nginx.image_id
-  ports {
-    internal = 80
-    external = 8080
-  }
+locals {
+  env_name         = "sandbox"
+  # aws_region       = "{YOUR_AWS_REGION}"
+  k8s_cluster_name = "ms-cluster"
 }
