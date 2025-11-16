@@ -44,7 +44,7 @@ jobs:
         run: terraform apply -no-color -auto-approve
 
       - name: Upload kubeconfig file
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: kubeconfig
           path: kubeconfig
