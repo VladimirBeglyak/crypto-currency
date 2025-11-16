@@ -39,6 +39,9 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan -no-color
+        with:
+          name: main.tf
+          path: infra
 
       - name: Terraform Apply
         run: terraform apply -no-color -auto-approve
