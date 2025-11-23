@@ -1,13 +1,13 @@
 terraform {
-  # backend "s3" {
-  #   bucket = "{YOUR_S3_BUCKET_NAME}"
-  #   key    = "terraform/backend"
-  #   region = "{YOUR_AWS_REGION}"
-  # }
+  backend "s3" {
+    bucket = "vladimir-crypto-currency"
+    key    = "terraform/backend"
+    region = "eu-north-1"
+  }
 }
 
 locals {
   env_name         = "sandbox"
-  # aws_region       = "{YOUR_AWS_REGION}"
+  aws_region       = "eu-north-1"
   k8s_cluster_name = "ms-cluster"
 }
