@@ -1,7 +1,7 @@
 package com.begliak.cryptocurrency.service;
 
 import com.begliak.cryptocurrency.config.ApiCoinloreUrlProperties;
-import com.begliak.cryptocurrency.entity.CryptoCurrency;
+import com.begliak.cryptocurrency.service.CryptoCurrencyUpdateTask.CryptoCurrencyEventModel;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class CryptoCurrencyExternalService {
         .toList();
   }
 
-  public List<CryptoCurrency> update() {
+  public List<CryptoCurrencyEventModel> update() {
     return urls.stream()
         .map(cryptCurrencyUpdater::update)
         .toList();

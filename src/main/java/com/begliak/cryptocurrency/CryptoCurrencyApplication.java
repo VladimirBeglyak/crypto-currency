@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @SpringBootApplication
-@ConfigurationPropertiesScan
+@ConfigurationPropertiesScan(basePackages = "com.begliak.cryptocurrency.config")
 public class CryptoCurrencyApplication {
 
   public static void main(String[] args) {

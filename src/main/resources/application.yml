@@ -1,4 +1,9 @@
 spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
   datasource:
     url: jdbc:postgresql://localhost:5432/crypto
     username: myuser
@@ -25,4 +30,11 @@ api:
     ids: [ 90,80,48543,518,2 ]
 
 task:
-  notify.change.price: 0 */5 * * * *
+  notify.change.price: 0/10 * * * * *
+
+rabbit:
+  settings:
+    notification-exchange: crypto-currency-notification-exchange
+    notification-queue: crypto-currency-notification-queue
+    notification-dead-letter-exchange: crypto-currency-notification-dead-letter-exchange
+    notification-dead-letter-queue: crypto-currency-notification-dead-letter-queue

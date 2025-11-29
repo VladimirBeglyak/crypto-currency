@@ -1,8 +1,9 @@
 package com.begliak.cryptocurrency.service;
 
+import com.begliak.cryptocurrency.dto.CryptResponse;
 import com.begliak.cryptocurrency.entity.CryptoCurrency;
 import com.begliak.cryptocurrency.repository.CryptoCurrencyRepository;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.begliak.cryptocurrency.service.CryptoCurrencyUpdateTask.CryptoCurrencyEventModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,28 +25,38 @@ public class CryptoCurrencyUpdater {
   private final ObjectMapper objectMapper;
   private final CryptoCurrencyRepository cryptoCurrencyRepository;
 
-  public CryptoCurrency update(String url) {
+  public CryptoCurrencyEventModel update(String url) {
     return webClient.get()
         .uri(url)
         .retrieve()
         .bodyToMono(String.class)
         .map(this::convertResponse)
-        .map(convertedResponse -> convertedResponse.get(0))
+        .map(List::getFirst)
         .doOnNext(convertedResponse -> log.info("Response from server: {}", convertedResponse))
         .flatMap(this::saveCryptCurrency)
         .block();
   }
 
-  private Mono<CryptoCurrency> saveCryptCurrency(CryptResponse cryptResponse) {
-    return Mono.fromCallable(() -> {
+  private Mono<CryptoCurrencyEventModel> saveCryptCurrency(CryptResponse cryptResponse) {
+    return Mono.fromCallable(() -> saveOrUpdate(cryptResponse))
+        .map(cryptoCurrency -> new CryptoCurrencyEventModel(cryptoCurrency.getSymbol(), cryptoCurrency.getPriceUsd()))
+        .subscribeOn(Schedulers.boundedElastic());
+  }
+
+  private CryptoCurrency saveOrUpdate(CryptResponse cryptResponse) {
+    return cryptoCurrencyRepository.findBySymbol(cryptResponse.symbol())
+        .map(cryptoCurrency -> {
+          cryptoCurrency.setPriceUsd(BigDecimal.valueOf(cryptResponse.priceUsd()));
+          return cryptoCurrency;
+        })
+        .orElseGet(() -> {
           CryptoCurrency cryptoCurrency = CryptoCurrency.builder()
               .externalId(Long.valueOf(cryptResponse.id()))
               .symbol(cryptResponse.symbol())
               .priceUsd(BigDecimal.valueOf(cryptResponse.priceUsd()))
               .build();
           return cryptoCurrencyRepository.save(cryptoCurrency);
-        })
-        .subscribeOn(Schedulers.boundedElastic());
+        });
   }
 
   private List<CryptResponse> convertResponse(String response) {
@@ -55,40 +66,5 @@ public class CryptoCurrencyUpdater {
     } catch (JsonProcessingException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  public record CryptResponse(
-      @JsonProperty("id")
-      String id,
-      @JsonProperty("symbol")
-      String symbol,
-      @JsonProperty("name")
-      String name,
-      @JsonProperty("nameid")
-      String nameId,
-      @JsonProperty("rank")
-      int rank,
-      @JsonProperty("price_usd")
-      double priceUsd,
-      @JsonProperty("percent_change_24h")
-      double percentChange24h,
-      @JsonProperty("percent_change_1h")
-      double percentChange1h,
-      @JsonProperty("percent_change_7d")
-      double percentChange7d,
-      @JsonProperty("market_cap_usd")
-      double marketCapitalisationUsd,
-      @JsonProperty("volume24")
-      double volumeOfCoinsLast24h,
-      @JsonProperty("volume24a")
-      double volumeOfCoinsTraded,
-      @JsonProperty("csupply")
-      double circulatingSupply,
-      @JsonProperty("tsupply")
-      double totalSupply,
-      @JsonProperty("msupply")
-      double maximumSupply
-  ) {
-
   }
 }
