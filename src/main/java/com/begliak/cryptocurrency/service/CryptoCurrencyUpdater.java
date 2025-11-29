@@ -47,6 +47,7 @@ public class CryptoCurrencyUpdater {
     return cryptoCurrencyRepository.findBySymbol(cryptResponse.symbol())
         .map(cryptoCurrency -> {
           cryptoCurrency.setPriceUsd(BigDecimal.valueOf(cryptResponse.priceUsd()));
+          cryptoCurrencyRepository.save(cryptoCurrency);
           return cryptoCurrency;
         })
         .orElseGet(() -> {
